@@ -1,0 +1,117 @@
+
+// Setup empty JS object to act as endpoint for all routes
+projectData = {};
+const data = [];
+require('dotenv').config()
+// Require Express to run server and routes
+const express = require('express');
+// Start up an instance of app
+const app = express();
+/* Dependencies */
+const bodyParser = require('body-parser');
+/* Middleware*/
+
+//Here we are configuring express to use body-parser as middle-ware.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// Cors for cross origin allowance
+const cors = require('cors');
+app.use(cors());
+// Initialize the main project folder
+app.use(express.static('dist'));
+
+
+
+
+// Setup Server
+
+const port = 8000;
+
+const server = app.listen(port,listening);
+
+function listening(){
+    console.log("server running...");
+    console.log(`running on local host: ${port}`)
+}
+const axios = require('axios');
+
+app.get('/all', getData);
+
+function getData(req, res){
+    res.send(data);
+}
+
+console.log("process.env.USER_NAME: ", process.env.USER_NAME)
+
+app.get('/getcoord/:place',
+async (req, res)=>{
+    try {
+    let city = req.params.place
+    const response = await axios.get(`http://api.geonames.org/searchJSON?q=${city}&maxRows=1&username=${process.env.USER_NAME}`);
+    const responseData = {};
+ 
+    responseData['latitude'] = response.data.geonames[0].lat
+    responseData['longitude'] = response.data.geonames[0].lng
+    responseData['country'] =  response.data.geonames[0].countryName
+    console.log("latitude", response.data.geonames[0].lat)
+    console.log("longitude", response.data.geonames[0].lng)
+    console.log("country", response.data.geonames[0].countryName)
+    console.log("response.data.geonames[0]", response.data.geonames[0])
+    res.send(responseData)
+    }
+    catch(error){
+        console.log("error: ", error)
+    }
+}
+);
+
+app.get('/getweather/:lat/:lon/:start_date/:end_date',
+async (req, res)=>{
+    try {
+    let latitude = req.params.lat
+    let longitude = req.params.lon
+    let start_date = req.params.start_date
+    let end_date = req.params.end_date 
+    const response = await axios.get(`http://api.weatherbit.io/v2.0/history/daily?lat=${latitude}&lon=${longitude}&start_date=${start_date}&end_date=${end_date}&key=${process.env.WEATHERBIT_API_KEY}`);
+    console.log(response.data.data)
+    const responseData = {};
+ 
+    responseData['max_temp'] = response.data.data[0].max_temp
+    responseData['min_temp'] = response.data.data[0].min_temp
+
+    res.send(responseData)
+    }
+    catch(error){
+        console.log("error: ", error)
+    }
+}
+);
+
+
+app.get('/all', getData);
+
+function getData(req, res){
+    res.send(data);
+}
+
+app.post('/addData', addData);
+
+
+function addData(req, res){
+    projectData = {
+       city: req.body.city,
+       country: req.body.country,
+       departure: req.body.departure,
+       latitude: req.body.latitude,
+       longitude: req.body.longitude,
+       max_temp: req.body.max_temp,
+       min_temp: req.body.min_temp
+    }
+    res.send(projectData)
+    data.push(projectData);
+}
+
+
+
+

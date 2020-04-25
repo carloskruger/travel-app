@@ -1,0 +1,47 @@
+{
+  "name": "travel-app",
+  "version": "1.0.0",
+  "description": "travel app",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js",
+    "build-prod": "webpack --config webpack.prod.js",
+    "build-dev": "webpack --config webpack.dev.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carloskruger/travel-app.git"
+  },
+  "keywords": [
+    "node",
+    "travel"
+  ],
+  "author": "Carlos Kruger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carloskruger/travel-app/issues"
+  },
+  "homepage": "https://github.com/carloskruger/travel-app#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.4.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.5.2",
+    "html-webpack-plugin": "^4.2.0",
+    "node-sass": "^4.14.0",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.1.4"
+  }
+}
