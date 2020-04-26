@@ -1,13 +1,12 @@
-
-
-document.getElementById("generate").addEventListener('click',getInformation);
-
 async function getInformation(e){
+    event.preventDefault()
   
     const city = document.getElementById('city').value;
     const departure = document.getElementById('departure').value;
     
-    
+    console.log("departure: ", departure)
+    console.log("city: ", city)
+
     let departure_date = new Date(departure)
     let start_month = departure.slice(5,7) 
   
