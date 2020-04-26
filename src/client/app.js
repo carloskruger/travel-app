@@ -35,9 +35,17 @@ async function getInformation(e){
     let lon = getCoordResponse['longitude']
 
     let getTemperatures = await getMaxMinTemp(`http://localhost:8000/getweather/${lat}/${lon}/${start_date}/${end_date}`)
-    console.log("getTemperatures:", getTemperatures)
+
     getCoordResponse['max_temp'] = convertCToFTemp(getTemperatures['max_temp'])
     getCoordResponse['min_temp'] = convertCToFTemp(getTemperatures['min_temp'])
+
+    let mycity = getCoordResponse['city']
+
+    let country = getCoordResponse['country']
+
+    let getImage = await getImageURL(`http://localhost:8000/getimage/${mycity}/${country}`)
+    console.log("getImageURL: ", getImage)
+    getCoordResponse['img_url'] = getImage['image_URL']
 
     console.log("getCoordResponse: ",getCoordResponse)
     postData("http://localhost:8000/addData",getCoordResponse);
@@ -73,6 +81,17 @@ const getMaxMinTemp = async ( url = '', data = {})=>{
     console.log("error", error);
     // appropriately handle the error
     }
+}
+
+const getImageURL = async ( url = '', data = {})=>{
+  const response = await fetch(url);
+  try {
+    const newData = await response.json();
+    return newData
+  }catch(error) {
+  console.log("error", error);
+  // appropriately handle the error
+  }
 }
 
 const postData = async ( url = '', data = {})=>{
@@ -128,7 +147,7 @@ const postData = async ( url = '', data = {})=>{
           
               <div id="collapse-${idx}" class="collapse show" aria-labelledby="heading-${idx}" data-parent="#accordion">
                 <div class="card-body">
-          
+                  <img src=${result.img_url} alt= ${result.city}>
                   <h5>My trip to: ${result.city}, ${result.country}</h5>
                   <p>Departing: ${result.departure}</p>
                   <p>Typical weather for then is:</p>

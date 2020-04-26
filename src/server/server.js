@@ -88,6 +88,24 @@ async (req, res)=>{
 }
 );
 
+app.get('/getimage/:city/:country',
+async (req, res)=>{
+    try {
+    let city = req.params.city
+    let country = req.params.country
+    const response = await axios.get(`https://pixabay.com/api/?key=${process.env.PIXABAY_API_KEY}&q=${city}+${country}&image_type=photo`);
+    console.log(response.data.hits)
+    const responseData = {};
+ 
+    responseData['image_URL'] = response.data.hits[0].webformatURL
+    
+    res.send(responseData)
+    }
+    catch(error){
+        console.log("error: ", error)
+    }
+}
+);
 
 app.get('/all', getData);
 
@@ -106,7 +124,8 @@ function addData(req, res){
        latitude: req.body.latitude,
        longitude: req.body.longitude,
        max_temp: req.body.max_temp,
-       min_temp: req.body.min_temp
+       min_temp: req.body.min_temp,
+       img_url: req.body.img_url
     }
     res.send(projectData)
     data.push(projectData);
