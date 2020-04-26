@@ -1,21 +1,12 @@
 
-/* Global Variables */
-console.log("app.js is being called")
-
-
-
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 document.getElementById("generate").addEventListener('click',getInformation);
 
 async function getInformation(e){
   
     const city = document.getElementById('city').value;
-    console.log(city)
     const departure = document.getElementById('departure').value;
-    console.log(departure)
+    
     
     let departure_date = new Date(departure)
     let start_month = departure.slice(5,7) 
@@ -27,35 +18,34 @@ async function getInformation(e){
     let start_date = d.getFullYear() - 1 + '-' + start_month + '-' + start_day
     let end_date = d.getFullYear() - 1 + '-' + start_month + '-' + end_day
 
-    let getCoordResponse = await getLatLong(`http://localhost:8000/getcoord/${city}`)
+    let getCoordResponse = await Client.getLatLong(`http://localhost:8000/getcoord/${city}`)
     getCoordResponse['departure'] = departure
     getCoordResponse['city'] = city
 
     let lat = getCoordResponse['latitude']
     let lon = getCoordResponse['longitude']
 
-    let getTemperatures = await getMaxMinTemp(`http://localhost:8000/getweather/${lat}/${lon}/${start_date}/${end_date}`)
+    let getTemperatures = await Client.getMaxMinTemp(`http://localhost:8000/getweather/${lat}/${lon}/${start_date}/${end_date}`)
 
-    getCoordResponse['max_temp'] = convertCToFTemp(getTemperatures['max_temp'])
-    getCoordResponse['min_temp'] = convertCToFTemp(getTemperatures['min_temp'])
+    getCoordResponse['max_temp'] = Client.convertCToFTemp(getTemperatures['max_temp'])
+    getCoordResponse['min_temp'] = Client.convertCToFTemp(getTemperatures['min_temp'])
 
     let mycity = getCoordResponse['city']
 
     let country = getCoordResponse['country']
 
-    let getImage = await getImageURL(`http://localhost:8000/getimage/${mycity}/${country}`)
-    console.log("getImageURL: ", getImage)
+    if (country == 'United States') {
+       country='usa'};
+    
+
+    let getImage = await Client.getImageURL(`http://localhost:8000/getimage/${mycity}/${country}`)
+    
     getCoordResponse['img_url'] = getImage['image_URL']
 
-    console.log("getCoordResponse: ",getCoordResponse)
-    postData("http://localhost:8000/addData",getCoordResponse);
-    updateUI();
+    Client.postData("http://localhost:8000/addData",getCoordResponse);
+    Client.updateUI();
 }
 
-function convertKtoFTemp(kelvin){
-    let fahrenheit =  (kelvin * 9/5) - 459.67 ;
-    return fahrenheit;
-  }
 
 function convertCToFTemp(centigrades){
     let fahrenheit =  (centigrades * 9/5) + 32;
@@ -150,8 +140,9 @@ const postData = async ( url = '', data = {})=>{
                   <img src=${result.img_url} alt= ${result.city}>
                   <h5>My trip to: ${result.city}, ${result.country}</h5>
                   <p>Departing: ${result.departure}</p>
+                  <p>${calculateDaysLeft(result.departure)} day(s) left for the trip!!!!</p>
                   <p>Typical weather for then is:</p>
-                  <p>High: ${result.max_temp}, Low: ${result.min_temp}</p>
+                  <p>High: ${result.max_temp.toFixed(2)}, Low: ${result.min_temp.toFixed(2)}</p>
                   
                 </div>
               </div>
@@ -164,20 +155,13 @@ const postData = async ( url = '', data = {})=>{
 
         
     };
-        /* <div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>       */
-
+    
+    function calculateDaysLeft(departure){
+      let departure_dt = new Date(departure)
+      let today = new Date();
+      let timeLeft = departure_dt.getTime() - today.getTime();
+      let daysLeft = timeLeft / (1000 * 3600 * 24)
+      return Math.ceil(daysLeft)
+    }
+ 
+export { getInformation }
