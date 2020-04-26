@@ -11,6 +11,7 @@ async function getInformation(e){
     let start_month = departure.slice(5,7) 
   
     let start_day = departure.slice(8,10);
+    let d = new Date();
  
     let end_day = parseInt(departure.slice(8,10)) + 1
     if (end_day < 9) end_day = "0" + end_day.toString();
@@ -107,7 +108,7 @@ const postData = async ( url = '', data = {})=>{
           const request = await fetch('http://localhost:8000/all');
            const allData = await request.json();
            console.log("allData:",allData)
-           createCards(allData)
+           Client.createCards(allData)
            return allData
             }
       catch(error){
@@ -128,18 +129,16 @@ const postData = async ( url = '', data = {})=>{
               <div class="card">
               <div class="card-header" id="heading-${idx}">
                 <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse-${idx}" aria-expanded="true" aria-controls="collapse-${idx}">
-          
-                          </button>
+                 
                 </h5>
               </div>
           
               <div id="collapse-${idx}" class="collapse show" aria-labelledby="heading-${idx}" data-parent="#accordion">
                 <div class="card-body">
                   <img src=${result.img_url} alt= ${result.city}>
-                  <h5>My trip to: ${result.city}, ${result.country}</h5>
+                  <h3>My trip to: ${result.city}, ${result.country}</h3>
                   <p>Departing: ${result.departure}</p>
-                  <p>${calculateDaysLeft(result.departure)} day(s) left for the trip!!!!</p>
+                  <p>${Client.calculateDaysLeft(result.departure)} day(s) left for the trip!!!!</p>
                   <p>Typical weather for then is:</p>
                   <p>High: ${result.max_temp.toFixed(2)}, Low: ${result.min_temp.toFixed(2)}</p>
                   
@@ -163,4 +162,4 @@ const postData = async ( url = '', data = {})=>{
       return Math.ceil(daysLeft)
     }
  
-export { getInformation }
+export { getInformation, getLatLong, getMaxMinTemp, convertCToFTemp, getImageURL, postData, createCards, calculateDaysLeft, updateUI }

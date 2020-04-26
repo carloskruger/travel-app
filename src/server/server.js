@@ -1,4 +1,4 @@
-
+const regeneratorRuntime = require("regenerator-runtime");
 // Setup empty JS object to act as endpoint for all routes
 projectData = {};
 const data = [];

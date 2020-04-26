@@ -8,8 +8,8 @@ body{
     grid-auto-rows: minmax(150px, auto);
     /* grid-template-columns:  */
     height:100vh;
-    background: #ada6a7;
-    color: #2d07b4;
+    background: #fffff8;
+    color: #07b45e;
     justify-content: center;
     grid-gap: 1em;
     font-size: 20px;
@@ -18,15 +18,15 @@ body{
 
 
 .entry{
-    background: rgba(59, 74, 107, .4);
+    background: #fffff8;
 }
 
 
 
 .headline {
-    background-color: #ada6a7;
+    background-color: #fffff8;
     text-align: center;
-    color: #2d07b4;
+    color: #07b45e;
 }
 .title{
 text-align: center;
@@ -42,7 +42,7 @@ input{
     display:block;
     height: 60px;
     width: 320px;
-    background:#dde4e6;
+    background:#85ebac;
     color: hsl(241, 69%, 15%);
     font-size: 20px;
     font-family: 'Montserrat', sans-serif;
@@ -50,25 +50,25 @@ input{
 }
 
 button{
-    width: 400px;
-    height: 100px;
+    width: 100px;
+    height: 60px;
     background: #3b4a6b;
     color: white;
-    font-size: 26px;
+    font-size: 1em;
     font-family: 'Montserrat', sans-serif;
     border: none;
     box-shadow: 2px 4px 5px #444;
 }
 h1{
     font-size: 36px;
+    color: red;
 }
 
-textarea{
-    background:#22b2da;
-    color: blue;
-    font-size: 20px;
-    font-family: 'Montserrat', sans-serif;
+h3{
+    font-family: 'Times', sans-serif;
+    color: #021b0f;
 }
+
 /* Reset style for HTML element on active to have no border*/
 input:focus,
 select:focus,
