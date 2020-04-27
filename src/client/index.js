@@ -11,6 +11,8 @@ import { calculateDaysLeft } from './js/app';
 import { updateUI } from './js/app';
 import { calculateDaysAway } from './js/app';
 
-
+document.addEventListener("DOMContentLoaded",(event) => {
+    document.getElementById('generate').addEventListener("click",getInformation);
+});
 
 export { getInformation, getLatLong, getMaxMinTemp, convertCToFTemp, getImageURL, postData, createCards, calculateDaysLeft, updateUI, calculateDaysAway }

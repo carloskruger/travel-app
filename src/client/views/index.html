@@ -22,7 +22,7 @@
   <div class ="holder departure"> -->
     <label for="return_date">When is your return date?</label>
     <input type="date" class= "input" id="return_date"  required pattern="\d{4}-\d{2}-\d{2}" placeholder="Enter your return date here" rows="9" cols="50">
-    <button id="generate" type = "submit" value="submit" onclick="return Client.getInformation(event)" onsubmit="return Client.getInformation(event)"> Save trip </button>
+    <button id="generate" type = "submit" value="submit" > Save trip </button>
   </div>
   <div class ="holder entry">
     <div class = "title">Upcoming Trip(s)</div>
@@ -31,13 +31,13 @@
   </div>
   </div>
   </div>
-  <script>
+   <script>
     if('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js');
     });
     }
-    </script>
+    </script> 
     
 </body>
 </html>
