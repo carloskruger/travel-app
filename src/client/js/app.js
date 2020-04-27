@@ -3,7 +3,7 @@ async function getInformation(e){
   
     const city = document.getElementById('city').value;
     const departure = document.getElementById('departure').value;
-    
+    const return_date = document.getElementById('return_date').value;
     console.log("departure: ", departure)
     console.log("city: ", city)
 
@@ -20,6 +20,7 @@ async function getInformation(e){
 
     let getCoordResponse = await Client.getLatLong(`http://localhost:8000/getcoord/${city}`)
     getCoordResponse['departure'] = departure
+    getCoordResponse['return_date'] = return_date
     getCoordResponse['city'] = city
 
     let lat = getCoordResponse['latitude']
@@ -134,14 +135,17 @@ const postData = async ( url = '', data = {})=>{
               </div>
           
               <div id="collapse-${idx}" class="collapse show" aria-labelledby="heading-${idx}" data-parent="#accordion">
-                <div class="card-body">
+                <div class="card-body" id="dest-picture">
                   <img src=${result.img_url} alt= ${result.city}>
+                </div>
+                <div id="trip-info">
                   <h3>My trip to: ${result.city}, ${result.country}</h3>
                   <p>Departing: ${result.departure}</p>
                   <p>${Client.calculateDaysLeft(result.departure)} day(s) left for the trip!!!!</p>
                   <p>Typical weather for then is:</p>
                   <p>High: ${result.max_temp.toFixed(2)}, Low: ${result.min_temp.toFixed(2)}</p>
-                  
+                  <p>I will be coming back on: ${result.return_date}</p>
+                  <p>I will be away for ${Client.calculateDaysAway(result.departure,result.return_date)} days</p>
                 </div>
               </div>
             </div>
@@ -162,4 +166,11 @@ const postData = async ( url = '', data = {})=>{
       return Math.ceil(daysLeft)
     }
  
-export { getInformation, getLatLong, getMaxMinTemp, convertCToFTemp, getImageURL, postData, createCards, calculateDaysLeft, updateUI }
+    function calculateDaysAway(departure,return_date){
+      let departure_dt = new Date(departure)
+      let return_dt = new Date(return_date);
+      let timeAway =  return_dt.getTime() -  departure_dt.getTime();
+      let daysAway = timeAway / (1000 * 3600 * 24)
+      return Math.ceil(daysAway)
+    }
+export { getInformation, getLatLong, getMaxMinTemp, convertCToFTemp, getImageURL, postData, createCards, calculateDaysLeft, updateUI, calculateDaysAway }

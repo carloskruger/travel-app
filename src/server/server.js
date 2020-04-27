@@ -1,6 +1,6 @@
 const regeneratorRuntime = require("regenerator-runtime");
 // Setup empty JS object to act as endpoint for all routes
-projectData = {};
+let projectData = {};
 const data = [];
 require('dotenv').config()
 // Require Express to run server and routes
@@ -36,11 +36,9 @@ function listening(){
 }
 const axios = require('axios');
 
-app.get('/all', getData);
-
-function getData(req, res){
+app.get('/all', async (req, res)=>{
     res.send(data);
-}
+})
 
 console.log("process.env.USER_NAME: ", process.env.USER_NAME)
 
@@ -107,20 +105,12 @@ async (req, res)=>{
 }
 );
 
-app.get('/all', getData);
-
-function getData(req, res){
-    res.send(data);
-}
-
-app.post('/addData', addData);
-
-
-function addData(req, res){
+app.post('/addData',(req, res) => {
     projectData = {
        city: req.body.city,
        country: req.body.country,
        departure: req.body.departure,
+       return_date: req.body.return_date,
        latitude: req.body.latitude,
        longitude: req.body.longitude,
        max_temp: req.body.max_temp,
@@ -129,8 +119,9 @@ function addData(req, res){
     }
     res.send(projectData)
     data.push(projectData);
-}
+})
 
+app.get('/', (req,res)=> res.status(200).json({ message: "Capstone Project"}));
 
-
+module.exports = app
 

@@ -8,8 +8,8 @@ import { postData } from './js/app';
 import { createCards } from './js/app';
 import { calculateDaysLeft } from './js/app';
 import { updateUI } from './js/app';
- 
+import { calculateDaysAway } from './js/app';
 
 
 
-export { getInformation, getLatLong, getMaxMinTemp, convertCToFTemp, getImageURL, postData, createCards, calculateDaysLeft, updateUI }
+export { getInformation, getLatLong, getMaxMinTemp, convertCToFTemp, getImageURL, postData, createCards, calculateDaysLeft, updateUI, calculateDaysAway }
