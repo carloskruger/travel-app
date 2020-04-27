@@ -1,3 +1,4 @@
+// This file: index.js is the entry point for webpack
 import { getInformation } from './js/app';
 import './style/style.scss';
 import { getLatLong } from './js/app';

@@ -1,3 +1,6 @@
+// This app interacts with the index.html and takes the information to do all the processing
+// getInformation is the main function and calls 3 API and gathers the information and saves it
+
 async function getInformation(e){
     event.preventDefault()
   

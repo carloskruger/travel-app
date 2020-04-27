@@ -40,7 +40,9 @@ app.get('/all', async (req, res)=>{
     res.send(data);
 })
 
-console.log("process.env.USER_NAME: ", process.env.USER_NAME)
+
+// This endpoint is for the call to Geonames API. Out of the response, we extract
+// latitude, longitude and country name 
 
 app.get('/getcoord/:place',
 async (req, res)=>{
@@ -64,6 +66,9 @@ async (req, res)=>{
 }
 );
 
+// This endpoint obtains weather information from weatherbit
+// It requires latitude, longitude start_date and end_date 
+
 app.get('/getweather/:lat/:lon/:start_date/:end_date',
 async (req, res)=>{
     try {
@@ -86,6 +91,7 @@ async (req, res)=>{
 }
 );
 
+// This call to pixabay will return an array of images for the city and country selected as travel destination
 app.get('/getimage/:city/:country',
 async (req, res)=>{
     try {
@@ -104,6 +110,8 @@ async (req, res)=>{
     }
 }
 );
+
+// This will log the information in an array
 
 app.post('/addData',(req, res) => {
     projectData = {
