@@ -84,6 +84,12 @@ button{
     border: none;
     box-shadow: 2px 4px 5px #444;
 }
+
+button:hover {
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
+  
 h1{
     font-size: 36px;
     color: red;
