@@ -3,4 +3,4 @@ This is an app where one can enter travel information. The app expects a city na
 
 # Technologies used
 
-Basically, Node.js, Express, Webpack, Babel, Service Workers
+Basically, Node.js, Express, Webpack, Babel, Service Workers, Jest.
